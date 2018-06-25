@@ -302,9 +302,12 @@ public class InfluxDbPublisher extends Notifier implements SimpleBuildStep{
 
         try {
             CoberturaPointGenerator cGen = new CoberturaPointGenerator(measurementRenderer, customPrefix, build);
+            logger.log(Level.INFO, cGen+" ------------------- ");
             if (cGen.hasReport()) {
                 listener.getLogger().println("[InfluxDB Plugin] Cobertura data found. Writing to InfluxDB...");
                 addPoints(pointsToWrite, cGen, listener);
+            } else {
+                logger.log(Level.INFO, "no cobertura data found");
             }
         } catch (NoClassDefFoundError ignore) {
             logger.log(Level.INFO, "Plugin skipped: Cobertura");
